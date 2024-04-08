@@ -1,0 +1,112 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Question de {{ question.exercice.titre }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+<br>
+<div class="body">
+    <div class="sidebar row my-5">
+        <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 280px;">
+            <a href="
+                {{ path('app_exercice.show', {id : question.exercice.id}) }}
+            " class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+                <span class="fs-4">{{ question.getExercice().titre }}</span>
+            </a>
+            <ul class="nav nav-pills flex-column mb-auto">
+                {% for question in question.getExercice().questions %}
+                    <li class="nav-item">
+                        <a href="
+                            {{ path('app_question.show', {exercice_id : question.exercice.id, id : question.id}) }}
+                        " class="nav-link" aria-current="page">
+                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                            {{question.question}}
+                        </a>
+                        <ul class="nav nav-pills flex-column mb-auto">
+                            {% for choix in question.getChoixReponses() %}
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page">
+                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                                        {{choix.choix}}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        {{ question.question }}
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {% if question.getChoixReponses() is empty %}
+                        <div class="alert alert-warning" role="alert">
+                            Vous devez ajouter des choix de réponses !
+                        </div>
+                    {% elseif question.getChoixReponses()|length < 2 %}
+                        <div class="alert alert-warning" role="alert">
+                            Vous devez avoir au moins deux choix de réponses !
+                        </div>
+                    {% endif %}
+                    <ul>
+                        <div class="actions">
+                            <td>
+                                <a href="{{ path('app_question.edit', {exercice_id : exercice_id, id : question.id}) }}" class="btn btn-warning">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Modifier question
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ path('app_choix', {question_id : question.id}) }}" class="btn btn-primary">
+                                    <i class="fa-regular fa-eye"></i>
+                                    Afficher choix
+                                </a>
+                            </td>
+                            
+                            <td>
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    <i class="fa-solid fa-trash"></i>
+                                    Supprimer question
+                                </a>
+                            </td>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="deleteModalLabel">Êtes-vous sûr(e) de vouloir supprimer cette question ?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-danger">La question ainsi que tous ses choix seront supprimés !</p>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <a href="{{ path('app_question.delete', {exercice_id : exercice_id, id : question.id}) }}" class="btn btn-danger">
+                            Confirmer
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

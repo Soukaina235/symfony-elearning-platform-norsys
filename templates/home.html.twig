@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+{% block stylesheets %} {{parent()}} {% endblock %}
+{% block javascripts %} {{parent()}} {% endblock %}
+{% block navabar %}
+{{parent()}}
+{% endblock %}
+{% block body %}
+<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="5000">
+        <img src="https://cdn.glitch.global/954faddc-7b28-4010-80c3-c42f104147ea/to-learn-g2756f9aa8_1280.jpg?v=1690892486785" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block" style=" 
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px; 
+            color: #fff; 
+
+        ">
+            <h2  class="display-2">Bienvenue a NorsysElearning</h2>
+            <p style="font-size: 20px;">"Quand on ne peut revenir en arrière, on ne doit se préoccuper que de la meilleure manière d’aller de l’avant."</p>
+            <h6>Paulo Coelho</h6>
+          </div>
+      </div>
+      <div class="carousel-item" data-bs-interval="5000">
+        <img src="https://cdn.glitch.global/954faddc-7b28-4010-80c3-c42f104147ea/library-ge32b0ce57_1280.jpg?v=1690892587193" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block" style=" 
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px; 
+            color: #fff; 
+
+        ">
+            <h2  class="display-2">Bienvenue a NorsysElearning</h2>
+            <p style="font-size: 20px;">"Ce n’est pas le vent qui décide de votre destination, c’est l’orientation que vous donnez à votre voile. Le vent est pareil pour tous. "</p>
+            <h6>Jim Rohn</h6>
+          </div>
+    </div>
+      <div class="carousel-item" data-bs-interval="5000">
+        <img src="https://cdn.glitch.global/954faddc-7b28-4010-80c3-c42f104147ea/training-g3aaffce93_1280.jpg?v=1690892906365" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block" style=" 
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px; 
+            color: black; 
+
+        ">
+            <h2  class="display-2">Bienvenue a NorsysElearning</h2>
+            <p style="font-size: 20px;">"Ce n’est pas les choses que nous avons faites pendant notre vie que nous regrettons sur notre lit de mort. Ce sont les choses que nous n’avons pas faites. Trouvez votre passion et suivez-là."</p>
+            <h6> Randy Pausch</h6>
+          </div>
+    </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+{% endblock %}
+{% block footer %}
+{{parent()}}
+{% endblock %}

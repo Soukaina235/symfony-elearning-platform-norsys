@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultat{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        li{
+            list-style-type: none;
+        }
+        .true {
+            color: green;
+        }
+        .false {
+            color: red;
+        }
+        .fa-regular {
+            display: inline-block;
+            width: 14px;
+            height: 16.8px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <h1>Votre score est : {{ score | round }} %</h1>
+    
+    {% if score >= 50 %}
+        <div class="alert alert-success">Vous avez réussit l'exercice et votre avancement est bien enregistré !</div>
+    {% else %}
+        <div class="alert alert-danger">
+            Votre score est inférieur à 50%, vous n'avez pas réussit l'exercice ! Vous pouvez le refaire à travers 
+            <a href="{{ path('app_exercice.practice', {exercice_id : exercice.id, flag: 1}) }}">
+                ce lien
+            </a>
+        </div>
+    {% endif %}
+
+    <a href="{{path('showsection',{'sections': exercice.section, 'avancement': avancement, 'idformation': formation_id.id })}}" class="btn btn-primary action">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        Revenir à la formation
+    </a>
+
+    {% set i = 1 %}
+    {% for question in exercice.questions %}
+        <h2>{{ question.question }}</h2>
+        <ul>
+
+            {% set j = 1 %}
+            {% for choice in question.getChoixReponses() %}
+
+                {% if app.session.has('reponse') %}
+                    {% if question.reponse == j %}
+                        <li><i class="fa-regular fa-square-check true"></i> {{ choice.choix }}</li>
+                    {% elseif app.session.get('reponse')["choix"~i] == j and question.reponse != j %}
+                        <li><i class="fa-regular fa-rectangle-xmark false"></i> {{ choice.choix }}</li>
+                    {% else %}
+                        <li><i class="fa-regular fa-square"></i> {{ choice.choix }}</li>
+                    {% endif %}
+                {% endif %}
+
+                {% set j = j + 1 %}
+            {% endfor %} 
+
+        </ul>
+        {% set i = i + 1 %}
+
+    {% endfor %}
+    
+    </div>
+{% endblock %}

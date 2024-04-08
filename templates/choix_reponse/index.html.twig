@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste choix{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="body">
+    <div class="sidebar row my-5">
+        <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 280px;">
+            <a href="
+                {{ path('app_exercice.show', {id : question.exercice.id}) }}
+            " class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+                <span class="fs-4">{{ question.exercice.titre }}</span>
+            </a>
+            <ul class="nav nav-pills flex-column mb-auto">
+                {% for question in question.exercice.questions %}
+                    <li class="nav-item">
+                        <a href="
+                            {{ path('app_question.show', {exercice_id : question.exercice.id, id : question.id}) }}
+                        " class="nav-link" aria-current="page">
+                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                            {{question.question}}
+                        </a>
+                        <ul class="nav nav-pills flex-column mb-auto">
+                            {% for choix in question.getChoixReponses() %}
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page">
+                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                                        {{choix.choix}}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-md-8 mx-auto">
+                {% for message in app.flashes("success") %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes("error") %}
+                    <div class="alert alert-danger">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% if question.reponse == 0 and question.choixReponses | length > 1 %}
+                    <div class="alert alert-warning">
+                        Le réponse juste n'est pas précisée !
+                    </div>
+                {% endif %}
+                {% if question.getChoixReponses() is empty %}
+                    <div class="alert alert-warning" role="alert">
+                        Vous devez ajouter des choix de réponses !
+                    </div>
+                {% elseif question.getChoixReponses()|length < 2 %}
+                    <div class="alert alert-warning" role="alert">
+                        Vous devez avoir au moins deux choix de réponses !
+                    </div>
+                {% endif %}
+                <div class="card">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Choix</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set i = 1 %}
+                            {% for choice in choix %}
+                                <tr>
+                                    <td>{{ i }}</td>
+                                    <td>{{ choice.choix }}</td>
+                                    <td>
+                                        <div class="actions">
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <i class="fa-solid fa-trash"></i>
+                                                Supprimer choix
+                                            </button>
+
+                                            <a href="{{ path('app_choix.edit', {question_id : question.id, id : choice.id}) }}" class="btn btn-warning">
+                                                Modifier choix
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            {% if i == question.reponse %}
+                                                <p class="text-success">Ceci est la bonne réponse !</p>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="deleteModalLabel">Êtes-vous sûr(e) de vouloir supprimer ce choix de réponse ?</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="text-danger">Le choix va être supprimé !</p>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuller</button>
+                                                <a href="{{ path('app_choix.delete', {question_id : question.id, id : choice.id}) }}" class="btn btn-danger">
+                                                    Supprimer
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% set i = i + 1 %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="{{ path('app_choix.add', {question_id : question.id}) }}" class="btn btn-primary">
+                        <i class="fa-solid fa-plus"></i>                
+                        Ajouter un choix de réponse
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% if question.choixReponses|length > 1 %}
+            <div class="col-md-8 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Définir ou changer la réponse</h3>
+                        <p>Entrez l'ID qui correspond à la réponse juste</p>
+                    </div>
+                    <div class="card-body">
+                        {# form_row(form.question, {'attr': {'hidden': 'hidden'}, 'label_attr': {'style': 'display: none;'}}) #}
+                        {{ form(form) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

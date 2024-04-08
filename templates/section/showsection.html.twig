@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <style>
+     #ajouter-section {
+      display: inline-block;
+      font-size: 18px;
+      margin: 2px !important;
+      padding: 4px;
+      letter-spacing: 0.0625em;
+     }
+
+     .action {
+      color: #fff;
+     }
+
+     .action:hover {
+      color: #fff;
+    }
+  </style>
+{% endblock %}
+
+{% block title %}Sections{% endblock %}
+{% block body %}
+<div class="container">
+  <br>
+  <br>
+  <h3>Avancement total: {{ avancement | round }}%</h3>
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" style="width: {{ avancement }}%" aria-valuenow="{{ avancement }}" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
+
+    {% if app.user and app.user.getRole() == 'formateur' %} 
+    <div><a href="{{path('addsection')}}" class="btn btn-light mt-4 ms-4 "><i class="fa fa-plus" id="ajouter-section"> Ajouter une Section</i></a></div>
+  {% endif %}
+  <br>
+
+  <table class="table">
+    
+    <thead>
+      <tr>
+      
+        <th scope="col">Section</th>
+        <th scope="col">Description</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for section in sections %}
+      <tr>
+        
+        <td>{{section.titre}}</td>
+        <td>{{section.description}}</td>
+        <td>
+          <a href="{{path('showressource',{'idsection': section.id})}}" class="btn btn-primary action">
+            Accéder
+            <i class="fa fa-eye"></i>
+          </a>
+          {% if app.user and app.user.getRole() == 'formateur' %} 
+          <a href="{{path('editsection',{'id': section.id})}}" class="btn btn-warning action" >
+            Modifier
+            <i class="fa-solid fa-pen-to-square"></i>
+          </a>
+          <a href="{{path('deletesection',{'id': section.id})}}" class="btn btn-danger " >
+            Supprimer
+            <i class="fa-solid fa-trash"></i>
+          </a>
+
+          <!-- Button trigger modal -->
+          {# <button type="button" class="btn btn-danger action" data-bs-toggle="modal" data-bs-target="#deleteModal">
+              Supprimer
+              <i class="fa-solid fa-trash"></i>
+          </button> #}
+          </a>
+          {% endif %}
+        </td>
+        
+        <!-- Modal -->
+            {# <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteModalLabel">Êtes-vous sûr(e) de vouloir supprimer cette section ?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-danger">La section ainsi que tous ses exercices et ressources seront supprimés !</p>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <a href="{{path('deletesection',{'id': section.id})}}" class="btn btn-danger">
+                                Confirmer
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div> #}
+      {% endfor %}
+      </tr>
+
+
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+.body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+/* 
+label ~ #question_question {
+  display: none;
+} */
+
+/* 
+.body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+/* 
+label ~ #question_question {
+  display: none;
+}*/
+/* 
+#formations {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  margin: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+#formations .carte {
+  border: 1px solid black;
+  padding: 4px;
+}
+
+#formations img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 200px !important;
+} */
+
+/* @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+body {
+  max-width: 1200px;
+  margin: auto;
+  padding: 16px;
+  font-family: "Montserrat", sans-serif;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 8px;
+  background-color: #7451eb;
+  text-align: center;
+  color: white;
+}
+header img {
+  height: 60px;
+  margin-left: 1rem;
+}
+header h1 {
+  flex-grow: 1;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+}
+
+.filtres {
+  border-radius: 4px;
+  box-shadow: 0px 0px 4px gray;
+  margin: 8px;
+  padding: 8px;
+  min-width: 300px;
+  min-height: 400px;
+}
+.filtres h3 {
+  text-align: center;
+}
+
+.fiches {
+  flex: 1;
+  margin: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+@media all and (max-width: 1000px) {
+  .fiches {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.fiches article {
+  border: 1px solid black;
+  padding: 4px;
+}
+.fiches article img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 200px;
+}
+.fiches article p {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+.fiches article h2 {
+  text-align: center;
+} */

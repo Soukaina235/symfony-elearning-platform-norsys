@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <!--<div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>-->
+    {% endif %}
+    <style>
+        .bg-image-vertical {
+                position: relative;
+                overflow: hidden;
+                background-repeat: no-repeat;
+                background-position: right center;
+                background-size: auto 100%;
+            }
+
+        @media (min-width: 1025px) {
+            .h-custom-2 {
+                height: 100%;
+            }
+            }
+    </style>
+    <section class="vh-100">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6 text-black">
+      
+    
+      
+              <div class="d-flex align-items-center h-custom-1 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n4">
+      
+                <form method="post" style="width: 23rem;">
+      
+                  <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Log in</h3>
+                    
+                  <div class="form-outline mb-4">
+                    <input type="email" value="{{ last_username }}" name="email" class="form-control form-control-lg" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                    <label class="form-label" for="form2Example18">Email address</label>
+                  </div>
+      
+                  <div class="form-outline mb-4">
+                    <input type="password" name="password" id="inputPassword" class="form-control form-control-lg" autocomplete="current-password" required>
+                    <label class="form-label" for="form2Example28">Password</label>
+                  </div>
+                  <input type="hidden" name="_csrf_token"
+                  value="{{ csrf_token('authenticate') }}"
+           >
+       
+                  <div class="pt-1 mb-4">
+                    <button class="btn btn-lg btn-block btn-dark" type="submit">
+                        Connecter
+                    </button>
+                  </div>
+                
+                 
+                  <p>Si vous n'avez pas un compte? <a href="{{path('app_register')}}" class="link-dark">Inscription</a></p>
+      
+                </form>
+      
+              </div>
+      
+            </div>
+            <div class="col-sm-6 px-0 d-none d-sm-block">
+              <img src="https://cdn.glitch.global/954faddc-7b28-4010-80c3-c42f104147ea/code-g7170e9d91_640.jpg?v=1691064768091"
+                alt="Login image" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
+            </div>
+          </div>
+        </div>
+      </section>
+ 
+{% endblock %}

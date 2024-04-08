@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste questions{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+{% endblock %}
+
+{% block body %}
+<br>
+<div class="body">
+    <div class="sidebar row my-5">
+        <div class="d-flex flex-column flex-shrink-0 p-3" style="width: 280px;">
+            <a href="
+                {{ path('app_exercice.show', {id : exercice.id}) }}
+            " class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+                <span class="fs-4">{{ exercice.titre }}</span>
+            </a>
+            <ul class="nav nav-pills flex-column mb-auto">
+                {% for question in questions %}
+                    <li class="nav-item">
+                        <a href="
+                            {{ path('app_question.show', {exercice_id : exercice.id, id : question.id}) }}
+                        " class="nav-link" aria-current="page">
+                            <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                            {{question.question}}
+                        </a>
+                        <ul class="nav nav-pills flex-column mb-auto">
+                            {% for choix in question.getChoixReponses() %}
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page">
+                                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                                        {{choix.choix}}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-md-8 mx-auto">
+                {% for message in app.flashes("success") %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% if exercice.questions is empty %}
+                    <div class="alert alert-warning" role="alert">
+                        Vous devez ajouter au moins une question !
+                    </div>
+                {% endif %}
+                <div class="card">
+                    <table class="table my-4">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Question</th>
+                                <th>Reponse</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for question in questions %}
+                                <tr>
+                                    <td scope="row">{{ question.id }}</td>
+                                    <td>{{ question.question }}</td>
+                                    <td>
+                                        {% if not question.reponse %}
+                                            Aucune réponse n'est encore spécifiée !
+                                        {% else %}
+                                            {{ question.reponse }}
+                                        {% endif %}
+                                        
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('app_question.show', {exercice_id : exercice_id, id : question.id}) }}" class="btn btn-primary">
+                                            <i class="fa-regular fa-eye"></i>
+                                            Afficher question
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <a href="{{ path('app_question.add', {exercice_id : exercice_id}) }}" class="btn btn-primary">
+                        <i class="fa-solid fa-plus"></i>                
+                        Ajouter question
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

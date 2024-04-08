@@ -1,0 +1,3 @@
+search_form:
+    path: /search
+    controller: App\Controller\FormationController::searchForm

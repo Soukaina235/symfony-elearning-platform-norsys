@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello formation!{% endblock %}
+{% block stylesheets %} {{parent()}} {% endblock %}
+{% block javascripts %} {{parent()}} {% endblock %}
+{% block navabar %}
+{{parent()}}
+{% endblock %}
+{% block body %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Id Utilisateur</th>
+      <th scope="col">nom</th>
+      <th scope="col">prenom</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for demandeformations in demandeformateur %}
+    <tr>
+    
+      <td>{{demandeformations.user.id}}</td>
+      <td>{{demandeformations.user.nom}}</td>
+      <td>{{demandeformations.user.prenom}}</td>
+      <td> <a href="{{path('GestionUser_true',{'iduser':demandeformations.user.id})}}" class="btn btn-outline-success"><i class="fa-solid fa-check"></i></a>
+        <a href="{{path('GestionUser_false',{'iduser':demandeformations.user.id})}}" class="btn btn-outline-danger"><i class="fa-solid fa-xmark"></i></a>
+    </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

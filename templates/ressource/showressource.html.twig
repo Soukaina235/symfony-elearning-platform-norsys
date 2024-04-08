@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ressources{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+  <style>
+    .action {
+      color: #fff;
+     }
+
+    .action:hover {
+      color: #fff;
+    }
+
+     .ajouter {
+      display: inline-block;
+      font-size: 18px;
+      margin: 2px !important;
+      padding: 3px;
+      letter-spacing: 0.0625em;
+      line-height: 2.5 !important;
+      width: 28%;
+     }
+
+  </style>
+{% endblock %}
+
+{% block navabar %}
+{{parent()}}
+{% endblock %}
+{% block body %}
+  <div class="container">
+
+    <br>
+    <h3>Avancement total: {{ avancement | round }}%</h3>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width: {{ avancement }}%" aria-valuenow="{{ avancement }}" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <br>
+
+    {% for message in app.flashes("success") %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <hr>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col" class="w-25">Type</th>
+          <th scope="col" class="w-25">Titre</th>
+          <th scope="col" class="w-50">Actions</th>
+        </tr>
+      </thead>
+      <h1>Ressources</h1>
+        {% if app.user and app.user.getRole() == 'formateur' %} 
+        <div><a href="{{path('addressource')}}" class="btn btn-light ajouter"><i class="fa fa-plus" > Ajouter une ressource</i></a></div>
+        {% endif %}
+      <tbody>
+        {% for ressource in ressources %}
+        <tr>
+          <td>{{ressource.type}}</td>
+          <td>{{ressource.titre}}</td>
+          <td class="action">
+            <a href="{{path('download_doc',{'id': ressource.id})}}" class="btn btn-primary action">
+              Télécharger
+              <i class="fa-solid fa-download"></i>
+            </a>
+            <a href="{{path('doneressource',{'ressource_id': ressource.id, 'idsection': ressource.idsection})}}" class="btn btn-success action">
+              Términée
+              <i class="fa-solid fa-check"></i>
+            </a>
+            {% if app.user and app.user.getRole() == 'formateur' %} 
+            <a href="{{path('editressource',{'idsection': ressource.idsection, 'id': ressource.id})}}" class="btn btn-warning action" >
+              Modifier
+              <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger action" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                Supprimer
+                <i class="fa-solid fa-trash"></i>
+            </button>
+            {% endif %}
+          </td>
+        
+        </tr>
+
+         <!-- Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteModalLabel">Êtes-vous sûr(e) de vouloir supprimer cette ressource ?</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-danger">La ressource sera supprimée !</p>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <a href="{{path('deleteressource',{'idsection': ressource.idsection, 'id': ressource.id})}}" class="btn btn-danger">
+                                Confirmer
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+      </tbody>
+    </table>
+    <hr>
+    <table class="table">
+    <tr>
+    <thead>
+        <th scope="col" class="w-25">ID</th>
+        <th scope="col" class="w-25">Titre</th>
+        <th scope="col" class="w-50">Actions</th>
+      </tr>
+    </thead>
+      <h1>Exercices</h1>
+        {% if app.user and app.user.getRole() == 'formateur' %} 
+          <div><a href="{{ path('app_exercice.add') }}" class="btn btn-light ajouter"><i class="fa fa-plus" > Ajouter un exercice</i></a></div>
+        {% endif %}
+      <tbody>
+        {% for exercice in exercices %}
+        <tr>
+            <td scope="row">{{ exercice.id }}</td>
+            <td>{{ exercice.titre }}</td>
+            <td class="actions">
+              {% if app.user and app.user.getRole() == 'formateur' %} 
+                <a href="{{ path('app_exercice.show', {id : exercice.id}) }}" class="btn btn-primary action">
+                    Afficher exercice 
+                    <i class="fa-regular fa-eye"></i>
+                </a>
+              {% endif %}
+                <a href="{{ path('app_exercice.practice', {exercice_id : exercice.id}) }}" class="btn btn-info action">
+                    Mettre en pratique 
+                    <i class="fa-solid fa-book"></i>
+                </a>
+            
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <br>
+{% endblock %}

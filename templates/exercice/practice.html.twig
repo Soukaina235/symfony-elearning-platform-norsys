@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mettre en pratique{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <br>
+        <div class="alert alert-info">
+            Vous devez avoir un score supérieur à 50% pour passer l'exercice et augumenter votre avancement !
+        </div>
+
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Cochez la bonne réponse</h3>
+                </div>
+                <div class="card-body">
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+        
+    </div>
+{% endblock %}
+
+
